@@ -235,13 +235,20 @@ static void edit_params(u32 argc, char** argv) {
 
     setenv("AFL_USE_ASAN", "1", 1);
 
-  } else if (getenv("AFL_USE_ASAN")) {
+  } else if (getenv("AFL_USE_ASAN") || getenv("AFL_USE_ASAN_32")) {
 
     if (getenv("AFL_USE_MSAN"))
       FATAL("ASAN and MSAN are mutually exclusive");
 
     if (getenv("AFL_HARDEN"))
       FATAL("ASAN and AFL_HARDEN are mutually exclusive");
+
+    if (getenv("AFL_USE_ASAN_32")) {
+
+       setenv("AFL_USE_ASAN", "1", 1);
+       cc_params[cc_par_cnt++] = "-m32";
+
+    }
 
     cc_params[cc_par_cnt++] = "-U_FORTIFY_SOURCE";
     cc_params[cc_par_cnt++] = "-fsanitize=address";
