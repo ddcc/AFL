@@ -260,6 +260,13 @@ static void edit_params(u32 argc, char** argv) {
 
   }
 
+  if (getenv("AFL_GCOV")) {
+
+    cc_params[cc_par_cnt++] = "-fprofile-arcs";
+    cc_params[cc_par_cnt++] = "-ftest-coverage";
+
+  }
+
   if (!getenv("AFL_DONT_OPTIMIZE")) {
 
 #if defined(__FreeBSD__) && defined(__x86_64__)

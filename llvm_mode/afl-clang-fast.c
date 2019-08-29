@@ -205,6 +205,13 @@ static void edit_params(u32 argc, char** argv) {
 
   }
 
+  if (getenv("AFL_GCOV")) {
+
+    cc_params[cc_par_cnt++] = "-fprofile-arcs";
+    cc_params[cc_par_cnt++] = "-ftest-coverage";
+
+  }
+
 #ifdef USE_TRACE_PC
 
   if (getenv("AFL_INST_RATIO"))
